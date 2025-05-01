@@ -1,0 +1,207 @@
+import 'package:flutter/material.dart';
+import 'package:food_delivery_app/details_page/page/details_page.dart';
+import 'package:food_delivery_app/homescreen/model/foods_model.dart';
+
+// ignore: must_be_immutable
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final searchmenu = TextEditingController();
+  int selectedCategoryIndex = 0;
+
+  List categoryList = [
+    "Fast Foods",
+    "Salads",
+    "Soups",
+    "Chinese",
+    "Italian",
+    "Deserts",
+    "Dinner",
+  ];
+
+  List<FoodsModel> deliveryfoods = [
+    FoodsModel(
+      name: 'Pizza',
+      image: 'assets/pizza.png',
+      cuisines: 'italian sauces',
+      price: 578,
+    ),
+    FoodsModel(
+      name: 'Momo',
+      image: 'assets/momo.png',
+      cuisines: 'Vegetable flavour',
+      price: 000,
+    ),
+    FoodsModel(
+      name: 'Sandwiches',
+      image: 'assets/sandwiches.png',
+      cuisines: 'yellow cream',
+      price: 679,
+    ),
+    FoodsModel(
+      name: 'Ice Cream',
+      image: 'assets/ice-cream.png',
+      cuisines: 'Vanilla cream & ice',
+      price: 567,
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: Icon(Icons.menu),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: CircleAvatar(backgroundColor: Colors.amber),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    "Order Fresh &",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 5),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    "Tasty Food Now!",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: TextField(
+                controller: searchmenu,
+                decoration: InputDecoration(
+                  hintText: 'Search your foods',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  prefixIcon: Icon(Icons.search),
+                ),
+              ),
+            ),
+
+            SizedBox(height: 25),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Text(
+                    'Categories',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(
+              height: 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: categoryList.length,
+
+                itemBuilder: (context, index) {
+                  bool isSelected = index == selectedCategoryIndex;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedCategoryIndex = index;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        decoration: BoxDecoration(
+                          color: isSelected ? Colors.blue : Colors.orange,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Text(
+                          categoryList[index],
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            Column(
+              children:
+                  deliveryfoods.map((food) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FoodDetailsPage(food: food),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 8,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade300,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: ListTile(
+                            leading: Image.asset(
+                              food.image,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
+                            title: Text(
+                              food.name,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(food.cuisines),
+                            trailing: Text('₹${food.price.toString()}'),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
