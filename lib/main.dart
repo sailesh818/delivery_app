@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/homescreen/controller/page/food_provider.dart';
 import 'package:food_delivery_app/routes/routes.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const FoodDeliveryApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => FoodProvider())],
+      child: FoodDeliveryApp(),
+    ),
+  );
 }
 
 class FoodDeliveryApp extends StatelessWidget {

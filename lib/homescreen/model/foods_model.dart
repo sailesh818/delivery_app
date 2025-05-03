@@ -10,4 +10,7 @@ class FoodsModel {
     required this.cuisines,
     required this.price,
   });
+  Map<String, dynamic> toMap() {
+    return {'name': name, 'image': image, 'cuisines': cuisines, 'price': price};
+  }
 }

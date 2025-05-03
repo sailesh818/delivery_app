@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+
+import 'package:food_delivery_app/database/page/database_page.dart';
 import 'package:food_delivery_app/details_page/page/details_page.dart';
 import 'package:food_delivery_app/homescreen/model/foods_model.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +18,23 @@ class _HomePageState extends State<HomePage> {
   final searchmenu = TextEditingController();
   int selectedCategoryIndex = 0;
   bool isLoading = false;
+  final dbHelper = DBHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    loadOfflineData();
+    fetchFoodsByCategory(categoryList[selectedCategoryIndex]);
+  }
+
+  void loadOfflineData() async {
+    final savedFoods = await dbHelper.getFoods();
+    if (savedFoods.isNotEmpty) {
+      setState(() {
+        deliveryfoods = savedFoods;
+      });
+    }
+  }
 
   Future<void> fetchFoodsByCategory(String category) async {
     setState(() {
@@ -277,6 +296,23 @@ class _HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.w500,
                                       color: Colors.red,
                                     ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.save, color: Colors.blue),
+                                    onPressed: () async {
+                                      //final dbHelper = DBHelper();
+                                      await dbHelper.insertFood(food);
+                                      loadOfflineData();
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            '${food.name} saved for offline use',
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
