@@ -5,6 +5,6 @@ class RecipesCreatorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Create your own recipes now!')));
+    return Scaffold(body: Center(child: Text('Buy your own carts now!')));
   }
 }
