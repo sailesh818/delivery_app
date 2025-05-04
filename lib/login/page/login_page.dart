@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+//import 'package:food_delivery_app/homescreen/page/home_page.dart';
+import 'package:food_delivery_app/navigation_bar/page/navigation_bar_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,13 +13,18 @@ class _LoginPageState extends State<LoginPage> {
   final emailcontroller = TextEditingController();
   final passwordcontroller = TextEditingController();
 
-  // ignore: avoid_print
   void login() {
     final email = emailcontroller.text;
     final password = passwordcontroller.text;
+    final isNumeric = RegExp(r'^[0-9]+$').hasMatch(password);
 
-    if (email.endsWith('@gmail.com') && password == '12345') {
-      Navigator.pushNamed(context, '/home');
+    if (email.endsWith('@gmail.com') && isNumeric) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => NavigationBarPage(email: email),
+        ),
+      );
     } else {
       showDialog(
         context: context,
@@ -27,8 +34,6 @@ class _LoginPageState extends State<LoginPage> {
               content: Text('Invalid email or password'),
             ),
       );
-      // ignore: avoid_print
-      //print("redfg");
     }
   }
 

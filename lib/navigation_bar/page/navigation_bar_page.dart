@@ -4,7 +4,8 @@ import 'package:food_delivery_app/profile/page/profile_page.dart';
 import 'package:food_delivery_app/recipes_creator/page/recipes_creator_page.dart';
 
 class NavigationBarPage extends StatefulWidget {
-  const NavigationBarPage({super.key});
+  final String email;
+  const NavigationBarPage({super.key, required this.email});
 
   @override
   State<NavigationBarPage> createState() => _NavigationBarPageState();
@@ -14,13 +15,13 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
   Widget buildBody() {
     switch (_selectedIndex) {
       case 0:
-        return HomePage();
+        return HomePage(email: widget.email);
       case 1:
         return RecipesCreatorPage();
       case 2:
-        return ProfilePage();
+        return ProfilePage(email: widget.email);
       default:
-        return HomePage();
+        return HomePage(email: widget.email);
     }
   }
 

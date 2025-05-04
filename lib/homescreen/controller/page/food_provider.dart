@@ -41,6 +41,7 @@ class FoodProvider extends ChangeNotifier {
         throw Exception('Failed to load foods');
       }
     } catch (e) {
+      // ignore: avoid_print
       print('Error fetching foods: $e');
     }
 

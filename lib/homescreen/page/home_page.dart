@@ -8,7 +8,8 @@ import 'package:food_delivery_app/homescreen/model/foods_model.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String email;
+  const HomePage({super.key, required this.email});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -202,12 +203,16 @@ class _HomePageState extends State<HomePage> {
                       fetchFoodsByCategory(selectedCategory);
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.only(left: 10),
                       child: Container(
+                        // height: 50,
                         alignment: Alignment.center,
                         padding: EdgeInsets.symmetric(horizontal: 24),
                         decoration: BoxDecoration(
-                          color: isSelected ? Colors.blue : Colors.orange,
+                          color:
+                              isSelected
+                                  ? Colors.blue
+                                  : const Color.fromARGB(255, 225, 224, 221),
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: Text(
@@ -220,6 +225,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
+            SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child:
@@ -304,6 +310,7 @@ class _HomePageState extends State<HomePage> {
                                       await dbHelper.insertFood(food);
                                       loadOfflineData();
                                       ScaffoldMessenger.of(
+                                        // ignore: use_build_context_synchronously
                                         context,
                                       ).showSnackBar(
                                         SnackBar(
